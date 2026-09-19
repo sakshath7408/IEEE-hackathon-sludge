@@ -225,3 +225,71 @@ Python<->TypeScript cross-validation harness, and the demo video script.
 **Broken / known issues:** none
 
 **Need from Tejas:** Clone the repo and confirm you can push to it.
+
+---
+
+## 2026-09-20 02:00 IST — deployed, and the AI component is confirmed working
+
+**Did:**
+
+1. **Deployed to Vercel.** Live at **https://gridpointsludge.vercel.app**.
+   Deployed via the Vercel CLI (`vercel --prod`) from the code repo checkout.
+
+2. **Verified the live site in a real browser** — not a build sandbox, the
+   actual production URL. Everything the sandbox could never check is now
+   checked:
+
+   - **The mandatory AI component runs.** Upload → "Try one with unfamiliar
+     headers" turns the badge **purple, "AI mapped"**. `Xenova/all-MiniLM-L6-v2`
+     downloads from the Hugging Face CDN (~23 MB) and runs in the browser on
+     WebAssembly. It mapped `Parcels Per Day → orders` (79%), `Locality Name →
+     id` (72%), `Y Coordinate → lat` (50%), `X Coordinate → lon` (39%).
+     Those percentages are raw cosine similarity shown as-is. 39% looks weak
+     but is a correct mapping — what matters is the margin over the runner-up.
+     **We were carrying a disqualification risk on this until tonight. It is
+     now closed.**
+   - **Basemap renders.** OpenFreeMap vector tiles graft; real streets.
+   - **Optimise:** 28.2% cheaper than one central depot at K=3, correctly
+     identifies K=4 as the true optimum, beats a k-means network by 2.9% at
+     equal K. ₹39.2L/year, 32 t CO₂.
+   - **Zero console errors.**
+
+3. **Moved your Python into the code repo** under `python/` — `solver.py`,
+   `engine.py`, `verifier.py`, plus `dump_reference.py` which the
+   cross-validation harness drives. One repo, both halves, as the plan said.
+
+**Broken / known issues:**
+
+- **Vercel is NOT linked to GitHub.** The CLI reported `Failed to connect
+  sakshath7408/gridpoint to project`. **Pushing to GitHub does not update the
+  live site.** Redeploys must be done with `vercel --prod` from the code repo.
+  If you push a change and the site looks stale, this is why — tell me and I
+  will redeploy.
+
+**Need from Tejas:**
+
+1. **The mathematical write-up. This is now the critical path on your side and
+   the biggest single risk left in the project.** The code is done and
+   deployed; the mathematics is not written down. "Mathematical Modelling &
+   Problem Solving" is an explicit judging criterion, this is Pentagram's
+   hackathon, and most of 100+ teams will ship a working app with no maths
+   behind it. That gap is where we win. `shared/BRIEFING_FOR_TEJAS.md` has the
+   outline; `shared/PROMPT_FOR_TEJAS_CLAUDE.md` will get your Claude up to
+   speed from zero.
+
+2. **Open the live site and sanity-check that it has not misrepresented your
+   model** — https://gridpointsludge.vercel.app, specifically the **Proof**
+   tab. The data contract is frozen; the presentation is not. If the UI claims
+   something your solver does not actually do, say so and I will change it.
+
+3. **Run `npm run crossval`** on your machine and confirm it passes there too.
+   Two independent implementations in two languages agreeing to 0.0001% is the
+   strongest evidence we have and it belongs in the write-up.
+
+4. **Please write an entry in `logs/tejas.md`.** It is still the blank
+   template. Your code push at 00:15 went unnoticed on my side for 45 minutes
+   because the protocol says to read the other person's log, and yours was
+   empty.
+
+**Still open:** demo video (script is in `shared/DEMO_SCRIPT.md`), and
+confirming whether Rajath wrote `verifier.py` or you did.

@@ -1,6 +1,6 @@
 # GRIDPOINT SLUDGE - Current State
 
-_Last updated: 2026-09-20 01:15 IST by Sakshath_
+_Last updated: 2026-09-20 02:00 IST by Sakshath_
 
 ## What we're building
 
@@ -46,16 +46,35 @@ Judged by Pentagram (BMSCE Mathematical Society) + BMSCE IEEE Computer Society.
   - **70/70 tests passing**
   - Python track also done earlier: `data.py` (38/38 tests) and a Streamlit
     `app.py` (31/31 end-to-end tests)
-- **In progress:** README, demo video, Python<->TypeScript cross-validation harness
-- **Blocked:**
-  - Waiting on Tejas's `solver.py` + `engine.py`
-  - Waiting on the **code repo URL** (this repo is context only)
-- **Not started:** Vercel deploy, demo video recording, moving `gridpoint/`
-  into the code repo under `python/`
-- **UNVERIFIED (must be checked on a real machine):**
-  - The AI model actually downloading and running (the build sandbox blocks
-    huggingface.co, so inference has never been executed)
-  - Map basemap tiles rendering (sandbox blocks all tile servers)
+  - Tejas's `solver.py`, `engine.py` and `verifier.py` received and moved into
+    the code repo under `python/`. One repo now holds both halves.
+  - Python<->TypeScript cross-validation harness done and passing (15/15)
+  - **Deployed and live: https://gridpointsludge.vercel.app**
+- **VERIFIED ON A REAL MACHINE (2026-09-20 ~01:50 IST, live production URL):**
+  Both items that were unverifiable from the build sandbox have now been
+  checked in a real browser against the deployed site.
+  - **AI component runs.** Loading `unfamiliar_headers.csv` turns the badge
+    purple and reads **"AI mapped"**. The MiniLM embedding model downloads from
+    the Hugging Face CDN and runs in-browser on WebAssembly. Mapped
+    `Parcels Per Day -> orders` (79%), `Locality Name -> id` (72%),
+    `Y Coordinate -> lat` (50%), `X Coordinate -> lon` (39%). The percentages
+    are raw cosine similarity, displayed honestly rather than laundered.
+    **The mandatory AI component is no longer a risk.**
+  - **Basemap tiles render.** OpenFreeMap vector tiles graft successfully;
+    attribution shows on the live site. Real streets, not the blank fallback.
+  - Optimise returns **28.2%** at K=3, identifies **K=4** as the true optimum,
+    beats k-means by **2.9%** at equal K. Zero console errors.
+- **Not started:** demo video recording; Tejas's mathematical write-up
+
+### Deployment note - IMPORTANT
+
+Vercel could **not** link the GitHub repo (`Failed to connect
+sakshath7408/gridpoint to project`). **A `git push` does NOT update the live
+site.** To redeploy, from the code repo checkout:
+
+```
+vercel --prod
+```
 
 ## Split of work
 
@@ -150,12 +169,23 @@ The Next.js web app - this is what gets submitted. Contains the TypeScript
 solver/engine, the AI component, the map, and the README with the AI disclosure
 and open-source credits.
 
-Tejas's Python reference implementation currently lives in `gridpoint/` inside
-THIS context repo. Before submission it should be moved into the code repo under
-`python/` so the judges see one repo with both halves.
+**Live site: https://gridpointsludge.vercel.app**
+
+Tejas's Python reference implementation has been moved into the code repo under
+`python/` (`solver.py`, `engine.py`, `verifier.py`, `dump_reference.py`), so the
+judges see one repo with both halves. The copy in `gridpoint/` in THIS repo is
+now historical - the code repo is authoritative.
 
 ## Open questions
 
-- Code repo URL?
-- Is Rajath actually building `verifier.py`? Nobody has confirmed.
-- Does the AI model load and run on a real machine? Never executed.
+- ~~Code repo URL?~~ **Answered:** https://github.com/sakshath7408/gridpoint
+- ~~Does the AI model load and run on a real machine?~~ **Answered: yes**,
+  verified on the live deployment. See Status above.
+- Is Rajath actually building `verifier.py`? A `verifier.py` arrived with
+  Tejas's code and is in `python/`. Still unconfirmed whether Rajath wrote it
+  or Tejas did.
+- **The mathematical write-up has not been started.** This is the single
+  biggest remaining risk. "Mathematical Modelling & Problem Solving" is an
+  explicit judging criterion at a mathematics society's hackathon, and most of
+  100+ teams will submit code with no mathematics behind it. Tejas owns this.
+- The demo video has not been recorded. Script is in `shared/DEMO_SCRIPT.md`.
