@@ -1,5 +1,5 @@
 # Logs
-logs
+# logs   <-- disabled: we track logs/ in this repo
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -141,3 +141,14 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# --- secrets safety net (PUBLIC repo) ---
+.env
+.env.*
+*.pem
+*.key
+*.p12
+secrets.*
+credentials.*
+*_rsa
+.DS_Store
