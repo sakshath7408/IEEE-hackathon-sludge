@@ -1,6 +1,6 @@
 # GRIDPOINT SLUDGE - Current State
 
-_Last updated: 2026-09-20 00:45 IST by Sakshath_
+_Last updated: 2026-09-20 01:15 IST by Sakshath_
 
 ## What we're building
 
@@ -35,17 +35,23 @@ Judged by Pentagram (BMSCE Mathematical Society) + BMSCE IEEE Computer Society.
 
 - **Working:**
   - Math engine complete and tested - **56/56 tests passing**
-    (`scripts/test_core.ts` in the code repo)
+    (`scripts/test_core.ts` in the code repo) - now 70/70
   - Next.js web app builds clean and renders correctly, verified in a real
     browser via Playwright screenshot
   - All 8 GridPoint bonus features implemented
+  - CO2 impact, +/-30% demand robustness and stable warehouse ids adopted from
+    Tejas's engine; the web engine now also emits his key names (`loads`,
+    `unserved`, `baseline`) so either implementation drops in unchanged
+  - README written, with the AI component named and every library credited
+  - **70/70 tests passing**
   - Python track also done earlier: `data.py` (38/38 tests) and a Streamlit
     `app.py` (31/31 end-to-end tests)
 - **In progress:** README, demo video, Python<->TypeScript cross-validation harness
 - **Blocked:**
   - Waiting on Tejas's `solver.py` + `engine.py`
   - Waiting on the **code repo URL** (this repo is context only)
-- **Not started:** Vercel deploy, demo video recording
+- **Not started:** Vercel deploy, demo video recording, moving `gridpoint/`
+  into the code repo under `python/`
 - **UNVERIFIED (must be checked on a real machine):**
   - The AI model actually downloading and running (the build sandbox blocks
     huggingface.co, so inference has never been executed)
@@ -138,7 +144,15 @@ Reference numbers on the Bengaluru 12-zone sample (useful as a cross-check):
 
 ## Code repo
 
-**MISSING - Tejas, please paste the URL here.** This repo is context only.
+**https://github.com/sakshath7408/gridpoint** (public)
+
+The Next.js web app - this is what gets submitted. Contains the TypeScript
+solver/engine, the AI component, the map, and the README with the AI disclosure
+and open-source credits.
+
+Tejas's Python reference implementation currently lives in `gridpoint/` inside
+THIS context repo. Before submission it should be moved into the code repo under
+`python/` so the judges see one repo with both halves.
 
 ## Open questions
 

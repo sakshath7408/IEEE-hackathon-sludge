@@ -4,6 +4,73 @@ Newest entries at the top.
 
 ---
 
+## 2026-09-20 (01:20 IST)
+
+**Did:**
+
+1. **The code repo is live: https://github.com/sakshath7408/gridpoint**
+   Next.js app, README with the AI disclosure and full open-source credits,
+   70 passing tests. This was the top blocker and it is cleared.
+
+2. **Adopted three things from Tejas's engine**, all tested:
+   - **CO2 impact**, derived from fuel burn (petrol 2.31 kg/L, diesel 2.68 kg/L)
+     rather than invented. Shows 31.9 tonnes/year avoided next to the rupee saving.
+   - **+/-30% demand robustness**, reported as *regret*: what keeping the chosen
+     warehouses costs versus re-optimising with perfect hindsight. Result 0.9%.
+   - **Stable warehouse ids** (W1 = busiest), so two runs are comparable.
+   The web engine now also emits his key names (`loads`, `unserved`, `baseline`)
+   alongside its own, so either implementation drops into the UI unchanged.
+
+3. **CROSS-VALIDATION PASSES.** `npm run crossval` runs Tejas's `solver.py` and
+   the TypeScript `lib/solver.ts` on the same 13-neighborhood dataset and
+   compares. They are NOT identical by construction - Python runs Weiszfeld on a
+   local tangent-plane projection, TypeScript runs it on the sphere with
+   haversine, and the seeds differ. Agreement measured across K=1..5:
+
+   ```
+      K  |  python (order-km)  typescript (order-km)   gap    worst site gap
+      1  |          55490.66              55490.74   +0.000%        0.000 km
+      2  |          37539.79              37539.82   +0.000%        0.002 km
+      3  |          30378.14              30378.17   +0.000%        0.002 km
+      4  |          23720.15              23720.18   +0.000%        0.000 km
+      5  |          17904.77              17904.80   +0.000%        0.000 km
+   ```
+
+   **0.0001% on cost, ~2 metres on position.** Two people implemented this
+   independently in two languages and landed on the same answer. That turns the
+   duplicated work into evidence rather than waste, and it is worth a line in the
+   demo video.
+
+4. **Tejas's Python is now in the code repo** under `python/` (solver, engine,
+   verifier, requirements) so the judges see one repo containing both halves.
+   Adopted his `SAMPLE_NEIGHBORHOODS` (13 Bangalore areas) as the canonical
+   cross-validation dataset, settling the 12-vs-13 mismatch.
+
+5. **A finding worth putting in the video:** a two-wheeler fleet emits MORE CO2
+   per day than a truck fleet (53.9 vs 51.2 kg) despite a far lower g/km,
+   because 25-parcel capacity forces ~10x the trips. My test asserted the
+   opposite and failed - the model was right. This only surfaces because trips
+   are modelled properly instead of assuming one vehicle per order.
+
+**Broken / known issues:**
+- **Not deployed.** No Vercel URL yet. This is now the top blocker.
+- **No demo video.**
+- The AI component has still never been observed running by me - my sandbox
+  blocks huggingface.co. Sakshath has the app running locally and needs to
+  confirm the badge reads "AI mapped" and not "alias table".
+
+**Need from Tejas:**
+1. **Read `decisions/` before writing more code.** There is no Streamlit app.
+   `HANDOFF_SAKSHATH.md` still says `app.py` "is the thing that gets filmed" -
+   that is out of date and will waste your night if you act on it.
+2. **The mathematical write-up.** Highest-value remaining task, and only you can
+   do it. The cross-validation result above is worth including in it.
+3. Confirm rupees/day as the headline cost unit (order-km stays as secondary).
+4. Your `solver.py` is deterministic as far as the harness can tell - confirm
+   there is no unseeded randomness anywhere.
+
+---
+
 ## 2026-09-20 (01:00 IST)
 
 **Did:**
