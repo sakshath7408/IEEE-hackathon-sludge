@@ -153,3 +153,4 @@ credentials.*
 *_rsa
 .DS_Store
 __pycache__/
+.vercel
